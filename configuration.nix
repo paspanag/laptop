@@ -12,8 +12,7 @@ with pkgs.lib;
 		./packages.nix
 		./programs.nix
 		./services.nix
-		./xserver.nix
-		./virtualization.nix
+		./virtualisation.nix
 	];
 
 	i18n = {
@@ -31,7 +30,7 @@ with pkgs.lib;
 			isNormalUser = true;
 			home = "/home/peter";
 			description = "Peter Panaguiton";
-			extraGroups = [ "wheel" "transmission" "kvm" ];
+			extraGroups = [ "wheel" "transmission" "kvm" "docker" ];
 			shell = "/run/current-system/sw/bin/mksh";
 		};
 		defaultUserShell = "/run/current-system/sw/bin/mksh";

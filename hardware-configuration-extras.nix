@@ -1,15 +1,18 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
-    hardware = {
-        #enableAllFirmware = true;
-        opengl.driSupport = true;
-        pulseaudio.enable = true;
-        bluetooth.enable = false;
-	opengl.driSupport32Bit = true;
-    };
+	hardware = {
+		pulseaudio.enable = true;
+		bluetooth.enable = false;
+		opengl = {
+			driSupport = true;
+			driSupport32Bit = true;
+			extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau ];
+		};
+		cpu.intel.updateMicrocode = true;
+	};
 
-    powerManagement = {
-        enable = true;
-    };
+	powerManagement = {
+		enable = true;
+	};
 }

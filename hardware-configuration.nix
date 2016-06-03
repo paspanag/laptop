@@ -4,32 +4,28 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-    ];
+	imports = [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
-  boot.kernelModules = [ "kvm-intel" "tun" "virtio" ];
-  boot.extraModulePackages = [ ];
+	boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
+	boot.kernelModules = [ "kvm-intel" "tun" "virtio" ];
+	boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/f67b9ea3-4e68-4797-9638-f74d01c0eeab";
-      fsType = "ext4";
-    };
+	fileSystems."/" = { 
+		device = "/dev/disk/by-uuid/f67b9ea3-4e68-4797-9638-f74d01c0eeab";
+		fsType = "ext4";
+	};
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/683A-8A29";
-      fsType = "vfat";
-    };
+	fileSystems."/boot" = { 
+		device = "/dev/disk/by-uuid/683A-8A29";
+		fsType = "vfat";
+	};
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/71128ba9-7f8c-4de9-8ad2-851525c4602d";
-      fsType = "ext4";
-    };
+	fileSystems."/home" = { 
+		device = "/dev/disk/by-uuid/71128ba9-7f8c-4de9-8ad2-851525c4602d";
+		fsType = "ext4";
+	};
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/2cdeba64-3cf1-4abb-b07f-2c57f19665ae"; }
-    ];
+	swapDevices =[ { device = "/dev/disk/by-uuid/2cdeba64-3cf1-4abb-b07f-2c57f19665ae"; } ];
 
-  nix.maxJobs = lib.mkDefault 4;
+	nix.maxJobs = lib.mkDefault 4;
 }

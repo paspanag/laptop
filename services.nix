@@ -11,8 +11,37 @@
 		transmission = {
 			enable = true;
 		};
+
+		xserver = {
+			enable = true;
+			autorun = true;
+			videoDrivers = ["intel"];
+			layout = "us";
+			resolutions = [{x=1366; y=768;}];
+			deviceSection = ''
+				Option "RenderAccel" "true"
+			'';
+			defaultDepth = 24;
+			displayManager = {
+				lightdm.enable = true;
+			};
+			windowManager.session = [
+				# cwm
+				{
+					name = "cwm";
+					start = ''
+						/run/current-system/sw/bin/cwm > /dev/null 2>&1 &
+						waitPID=$!
+					'';
+
+				}
+			];
+			libinput = {
+				enable = true;
+			};
+		};
 	};
-	
+
 	systemd.user.services.compton = {
 		wantedBy = [ "default.target" ];
 		serviceConfig = {

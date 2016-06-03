@@ -1,7 +1,5 @@
 { pkgs, ... }:
 
-with pkgs.lib;
-
 {
 	boot.loader.grub = {
 		enable = true;
