@@ -11,6 +11,7 @@ with pkgs.lib;
 		./networking.nix
 		./packages.nix
 		./programs.nix
+		./desktop.nix
 		./services.nix
 		./virtualisation.nix
 	];

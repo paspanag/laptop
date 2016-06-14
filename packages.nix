@@ -28,18 +28,29 @@
 		pavucontrol
 		plan9port
 		ranger
+		pcmanfm
 
 		# dev stuff
-		git
+		gitFull
 		qemu
 		vde2
-		sublime3
+		nasm
 
 		#android stuff
-		androidsdk
-		androidndk
-		idea.android-studio
-		android-udev-rules
+		#androidsdk
+		#androidndk
+		#idea.android-studio
+		#android-udev-rules
+
+		#games
+		steam
+		teamspeak_client
+		wineUnstable
+		winetricks
+		openldap
+		
+		#rice
+		#this section is in ./desktop.nix
 	];
 
 	nixpkgs.config = {
