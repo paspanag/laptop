@@ -29,6 +29,7 @@
 		plan9port
 		ranger
 		pcmanfm
+		cmus
 
 		# dev stuff
 		gitFull
@@ -37,10 +38,10 @@
 		nasm
 
 		#android stuff
-		#androidsdk
-		#androidndk
-		#idea.android-studio
-		#android-udev-rules
+		androidsdk
+		androidndk
+		idea.android-studio
+		android-udev-rules
 
 		#games
 		steam

@@ -1,20 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
-	iconTheme = pkgs.stdenv.mkDerivation {
-		name = "numix-icons-custom";
-		buildCommand = ''
-			# Copy base icons
-			mkdir -p $out/share
-			cp -r ${pkgs.numix-icon-theme}/share/icons $out/share/icons
-			chmod +w -R $out/share/icons
-		'';
-	};
 	envVars = ''
 		# GTK2
 		export GTK_PATH=$GTK_PATH:${pkgs.gtk-engine-murrine}/lib/gtk-2.0
-		export GTK2_RC_FILES=${pkgs.writeText "iconrc" ''gtk-icon-theme-name="numix"''}:${pkgs.numix-gtk-theme}/share/themes/Numix/gtk-2.0/gtkrc:$GTK2_RC_FILES
+		export GTK2_RC_FILES=${pkgs.writeText "iconrc" ''gtk-icon-theme-name="Numix"''}:${pkgs.numix-gtk-theme}/share/themes/Numix/gtk-2.0/gtkrc:$GTK2_RC_FILES
 		# GTK3
 		export GTK_THEME="Numix"
+		export GTK_DATA_PREFIX=${config.system.path}
 	'';
 in {
 	services.xserver = {
@@ -51,10 +43,10 @@ in {
 
 	environment = {
 		systemPackages = with pkgs; [
-			iconTheme
 			numix-gtk-theme
 			numix-icon-theme
 			gtk-engine-murrine
+			hicolor_icon_theme
 		];
 
 		pathsToLink = [ "/share" ];
