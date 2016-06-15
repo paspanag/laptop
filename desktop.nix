@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, fetchcurl ... }:
 let
 	envVars = ''
 		# GTK2
@@ -8,6 +8,18 @@ let
 		export GTK_THEME="Numix"
 		export GTK_DATA_PREFIX=${config.system.path}
 	'';
+	peteswallpapers = pkgs.stdenv.mkDerivation {
+		name = "wallpaper-pack";
+		src = fetchurl {
+			url = http://imgur.com/a/J4ZRA/zip;
+			md5 = "cda958c7fef6b43b803e1d1ef9afcb85";
+		};
+		buildCommand = ''
+			# Copy base icons
+			mkdir -p $out/share/wallpapers
+			unzip *.zip -d $out/share/wallpapers	
+		'';
+	};
 in {
 	services.xserver = {
 		enable = true;
@@ -28,7 +40,6 @@ in {
 				name = "cwm";
 				start = ''
 					${envVars}
-					${pkgs.feh}/bin/feh --randomize --bg-fill $HOME/photos/wallpapers
 					${pkgs.cwm}/bin/cwm > /dev/null 2>&1 &
 					waitPID=$!
 				'';
@@ -47,8 +58,29 @@ in {
 			numix-icon-theme
 			gtk-engine-murrine
 			hicolor_icon_theme
+			peteswallpapers
 		];
 
 		pathsToLink = [ "/share" ];
+	};
+
+	systemd.user.services = {
+		feh = {
+			wantedBy = [ "default.target" ];
+			serviceConfig = {
+				Type = "oneshot";
+				Environment = "DISPLAY=:0";
+				ExecStart = ''${pkgs.bash}/bin/bash -c '${pkgs.feh}/bin/feh --randomize --bg-fill %h/photos/wallpapers'
+				'';
+			};
+		};
+		compton = {
+			wantedBy = [ "default.target" ];
+			serviceConfig = {
+				ExecStart = ''${pkgs.compton}/bin/compton -f -C -D 5 --backend glx'';
+				RestartSec = 3;
+				Restart = "always";
+			};
+		};
 	};
 }
