@@ -66,22 +66,32 @@ in {
 		pathsToLink = [ "/share" ];
 	};
 
-	systemd.user.services = {
-		feh = {
-			wantedBy = [ "default.target" ];
-			serviceConfig = {
-				Type = "oneshot";
-				Environment = "DISPLAY=:0";
-				ExecStart = ''${pkgs.bash}/bin/bash -c '${pkgs.feh}/bin/feh --randomize --bg-fill %h/photos/wallpapers'
-				'';
+	systemd.user = {
+		services = {
+			compton = {
+				wantedBy = [ "default.target" ];
+				serviceConfig = {
+					ExecStart = ''${pkgs.compton}/bin/compton -f -C -D 5 --backend glx'';
+					RestartSec = 3;
+					Restart = "always";
+				};
+			};
+			feh = {
+				serviceConfig = {
+					Type = "oneshot";
+					Environment = "DISPLAY=:0";
+					ExecStart = "${pkgs.feh}/bin/feh --randomize --bg-fill ${config.system.path}/share/wallpapers";
+				};
 			};
 		};
-		compton = {
-			wantedBy = [ "default.target" ];
-			serviceConfig = {
-				ExecStart = ''${pkgs.compton}/bin/compton -f -C -D 5 --backend glx'';
-				RestartSec = 3;
-				Restart = "always";
+
+		timers = {
+			feh = {
+				wantedBy = [ "timers.target" ];
+				timerConfig = {
+					OnUnitActiveSec = 60;
+					Unit= "feh.service";
+				};
 			};
 		};
 	};
