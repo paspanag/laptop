@@ -1,4 +1,4 @@
-{ pkgs, config, fetchcurl ... }:
+{ pkgs, config, fetchcurl, ... }:
 let
 	envVars = ''
 		# GTK2
@@ -10,14 +10,16 @@ let
 	'';
 	peteswallpapers = pkgs.stdenv.mkDerivation {
 		name = "wallpaper-pack";
-		src = fetchurl {
-			url = http://imgur.com/a/J4ZRA/zip;
-			md5 = "cda958c7fef6b43b803e1d1ef9afcb85";
+		src = pkgs.fetchFromGitHub {
+			owner = "peppy";
+			repo = "wallpapers";
+			rev = "84b6e9ca679afd1ad20fc315788a87611d111351";
+			sha256 = "1lnkrwhrzrf7bs2pm5b2q5p5q6f1i1zxqs002dnxq3wb0nlka76n";
 		};
 		buildCommand = ''
 			# Copy base icons
 			mkdir -p $out/share/wallpapers
-			unzip *.zip -d $out/share/wallpapers	
+			cp -R $src/Desktop/*.jpg $out/share/wallpapers	
 		'';
 	};
 in {
