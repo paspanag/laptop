@@ -4,8 +4,7 @@
 	boot.loader.grub = {
 		enable = true;
 		version = 2;
-		efiSupport = true;
-		device = "nodev";
+		device = "/dev/sda";
 	};
 
 	boot.kernelPackages = pkgs.linuxPackages_4_5;

@@ -12,9 +12,6 @@
                         terminus_font
                         gohufont
                         ubuntu_font_family
-                        fira
-                        fira-code
-                        fira-mono
                 ];
         };
 }

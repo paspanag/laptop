@@ -8,20 +8,20 @@ let
 		export GTK_THEME="Numix"
 		export GTK_DATA_PREFIX=${config.system.path}
 	'';
-	peteswallpapers = pkgs.stdenv.mkDerivation {
-		name = "wallpaper-pack";
-		src = pkgs.fetchFromGitHub {
-			owner = "peppy";
-			repo = "wallpapers";
-			rev = "84b6e9ca679afd1ad20fc315788a87611d111351";
-			sha256 = "1lnkrwhrzrf7bs2pm5b2q5p5q6f1i1zxqs002dnxq3wb0nlka76n";
-		};
-		buildCommand = ''
-			# Copy base icons
-			mkdir -p $out/share/wallpapers
-			cp -R $src/Desktop/*.jpg $out/share/wallpapers	
-		'';
-	};
+	#peteswallpapers = pkgs.stdenv.mkDerivation {
+	#	name = "wallpaper-pack";
+	#	src = pkgs.fetchFromGitHub {
+	#		owner = "peppy";
+	#		repo = "wallpapers";
+	#		rev = "84b6e9ca679afd1ad20fc315788a87611d111351";
+	#		sha256 = "1lnkrwhrzrf7bs2pm5b2q5p5q6f1i1zxqs002dnxq3wb0nlka76n";
+	#	};
+	#	buildCommand = ''
+	#		# Copy base icons
+	#		mkdir -p $out/share/wallpapers
+	#		cp -R $src/Desktop/*.jpg $out/share/wallpapers	
+	#	'';
+	#};
 in {
 	services.xserver = {
 		enable = true;
@@ -60,7 +60,7 @@ in {
 			numix-icon-theme
 			gtk-engine-murrine
 			hicolor_icon_theme
-			peteswallpapers
+			#peteswallpapers
 		];
 
 		pathsToLink = [ "/share" ];
@@ -76,23 +76,7 @@ in {
 					Restart = "always";
 				};
 			};
-			feh = {
-				serviceConfig = {
-					Type = "oneshot";
-					Environment = "DISPLAY=:0";
-					ExecStart = "${pkgs.feh}/bin/feh --randomize --bg-fill ${config.system.path}/share/wallpapers";
-				};
-			};
 		};
 
-		timers = {
-			feh = {
-				wantedBy = [ "timers.target" ];
-				timerConfig = {
-					OnUnitActiveSec = 60;
-					Unit= "feh.service";
-				};
-			};
-		};
 	};
 }

@@ -38,17 +38,17 @@
 		nasm
 
 		#android stuff
-		androidsdk
-		androidndk
-		idea.android-studio
-		android-udev-rules
+		#androidsdk
+		#androidndk
+		#idea.android-studio
+		#android-udev-rules
 
 		#games
-		steam
-		teamspeak_client
-		wineUnstable
-		winetricks
-		openldap
+		#steam
+		#teamspeak_client
+		#wineUnstable
+		#winetricks
+		#openldap
 		
 		#rice
 		#this section is in ./desktop.nix
